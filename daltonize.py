@@ -7,7 +7,6 @@ def transform_colorspace(img, mat):
     return img @ mat.T
 
 def simulate(rgb, color_deficit="d", gamma=2.4):
-    rgb = gamma_correction(rgb, gamma)
     # Colorspace transformation matrices
     cb_matrices = {
         "d": np.array([[1, 0, 0], [1.10104433,  0, -0.00901975], [0, 0, 1]], dtype=np.float16),
@@ -32,7 +31,6 @@ def simulate(rgb, color_deficit="d", gamma=2.4):
 
 
 def daltonize(rgb, color_deficit='d', gamma=2.4):
-    rgb = gamma_correction(rgb, gamma)
     sim_rgb = simulate(rgb, color_deficit)
     err2mod = np.array([[0, 0, 0], [0.7, 1, 0], [0.7, 0, 1]])
     err = transform_colorspace(rgb - sim_rgb, err2mod)

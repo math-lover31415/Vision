@@ -2,15 +2,17 @@ from fastapi import FastAPI, Request, Response
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 import cv2
-from daltonize import daltonize, simulate, convert_back
+from daltonize import daltonize, simulate, convert_back, gamma_correction
 from pydantic import BaseModel
 import base64
 
 app = FastAPI()
 gamma = 2.4
+type_ = 'd'
+mode = 'Normal'
 
 def generate_frames():
-    global gamma
+    global gamma, type_, mode
     camera = cv2.VideoCapture(0)
     
     while True:
@@ -19,10 +21,16 @@ def generate_frames():
             break
         else:
             frame = cv2.flip(frame, 1)
-            cv2.imshow('video',frame)
+            # cv2.imshow('video',frame)
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            frame = simulate(frame, 'd', gamma)
-            frame = convert_back(frame, gamma)
+            if mode == 'Daltonized':
+                frame = gamma_correction(frame, gamma)
+                frame = daltonize(frame, type_, gamma)
+                frame = convert_back(frame, gamma)
+            if mode == 'Simulated':
+                frame = gamma_correction(frame, gamma)
+                frame = simulate(frame, type_, gamma)
+                frame = convert_back(frame, gamma)
             frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 camera.release()
@@ -36,10 +44,6 @@ generate_frames()
 def read(file):
     with open(file, 'r') as f:
         content = f.read()
-    content += "<style>"
-    with open("style.css", 'r') as f:
-        content += f.read()
-    content += "</style>"
     return content
 
 app.add_middleware(
@@ -65,7 +69,7 @@ class MyData(BaseModel):
     text: str
     
 # Post
-@app.post("/gamma",tags=['reply'])
+@app.post("/gamma",tags=['gama'])
 async def post(data: MyData):
     global gamma
     text = data.json()
@@ -76,7 +80,28 @@ async def post(data: MyData):
             "status":"Success",
             "reply": "ok"
             }
-    
+# Post
+@app.post("/type",tags=['type'])
+async def post(data: MyData):
+    global type_
+    text = data.json()
+    type_ = text[len('{"text:" '):- len('"}')]
+    print(type_)
+    return {
+            "status":"Success",
+            "reply": "ok"
+            }
+@app.post("/mode",tags=['mode'])
+async def post(data: MyData):
+    global mode
+    text = data.json()
+    mode = text[len('{"text:" '):- len('"}')]
+    print(mode)
+    return {
+            "status":"Success",
+            "reply": "ok"
+            }
+
     
 # # Route to serve HTML page
 @app.get('/')

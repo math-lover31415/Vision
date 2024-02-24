@@ -7,13 +7,123 @@
     <!-- <link rel="stylesheet" href="style.css"> -->
 </head>
 <body>
-    <h1>VISION</h1>
-    <!-- <img id="video_feed" width="640" height="480"> -->
-    <img id="video_feed" src="/video_feed" width="640" height="480">
-    <input type="range" placeholder="Gamma Correction" min="100" max="1000" width="400" height="20"  class="slider" id="myRange">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
 
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Jost';
+            color: white;
+        }
+
+        body{
+            background-color: rgb(25, 24, 24);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            gap: 1em;
+        }
+        main{
+            display: flex;
+            gap: 2em;
+        }
+        .controls{
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            background-color: rgb(55, 55, 55);
+            gap: 4em;
+            padding: 2em;
+            border-radius: 10px;
+        }
+        .controls .row{
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            gap: 3em;
+            width: 100%;
+        }
+        .cnt-head{
+            align-self: center;
+        }
+        .controls .row .col{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .slider{
+            width: 100%;
+        }
+        .radio{
+            color: white;
+        }
+        .bar{
+            width: 100vw;
+            height: 10px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(90deg, #F00 0%, #FF00F5 25.27%, #6100FF 50.07%, #0500FF 74.22%, #00D1FF 100%);
+        }
+    </style>
+    <h1>VISION</h1>
+    <main>
+        <!-- <img id="video_feed" width="640" height="480"> -->
+        <img id="video_feed" src="/video_feed" width="640" height="480">
+        <div class="controls">
+            <h2 class="cnt-head">Controls</h2>
+            <div class="row">
+                <label for="gamma">Gamma: </label>
+                <input name="gamma" type="range" min="100" max="1000" width="400" height="20"  class="slider" id="gamma">
+            </div>
+            <div class="row">
+                <label for="mode">Choose mode: </label>
+                <div class="col">
+                    <input type="radio" class="radio mode" id="mode" name="mode" value="Normal" checked>
+                    <p>Normal</p>
+                </div>
+                <div class="col">
+                    <input type="radio" class="radio mode" id="mode" name="mode" value="Simulated">
+                    <p>Simulated</p>
+                </div>
+                <div class="col">
+                    <input type="radio" class="radio mode" id="mode" name="mode" value="Daltonized">
+                    <p>Daltonized</p>
+                </div>
+            </div>
+            <div class="row">
+                <label for="mode">Choose Type: </label>
+                <div class="col">
+                    <input type="radio" class="radio type" id="type" name="type" value="d" checked>
+                    <p>Deuteranopia</p>
+                </div>
+                <div class="col">
+                    <input type="radio" class="radio type" id="type" name="type" value="t">
+                    <p>Protonopia</p>
+                </div>
+                <div class="col">
+                    <input type="radio" class="radio type" id="type" name="type" value="p">
+                    <p>Tritnopia</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <div class="bar"></div>
     <script defer>
-        const input = document.getElementById('myRange')
+        const input = document.getElementById('gamma')
+        const radioM = document.querySelectorAll(".mode");
+        const radioT = document.querySelectorAll(".type");
+        document.getAllElementByI
+        // const mode = document.querySelector('input[name="mode"]:checked');
 
         input.addEventListener('change', ()=>{
             console.log(input.value);
@@ -31,6 +141,39 @@
                 })
                 .catch(error => {console.error('Error:', error); });           
         } );
+
+        radioT.forEach(e => e.addEventListener('change', ()=>{
+            const type = document.querySelector('input[name="type"]:checked');
+            console.log(type.defaultValue);
+            fetch('http://127.0.0.1:8000/type', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': "*"
+                },
+                body: JSON.stringify({text: type.defaultValue}),
+                })
+                .then(res => res.json()).then(res=>{
+                    console.log("hello " + res.reply);
+                })
+                .catch(error => {console.error('Error:', error); });    
+        }))
+        radioM.forEach(e => e.addEventListener('change', ()=>{
+            const mode = document.querySelector('input[name="mode"]:checked');
+            console.log(type.defaultValue);
+            fetch('http://127.0.0.1:8000/mode', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': "*"
+                },
+                body: JSON.stringify({text: mode.defaultValue}),
+                })
+                .then(res => res.json()).then(res=>{
+                    console.log("hello " + res.reply);
+                })
+                .catch(error => {console.error('Error:', error); });    
+        }))
     </script>
 </body>
 </html>
