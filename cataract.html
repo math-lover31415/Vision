@@ -122,14 +122,9 @@
                     method: 'POST',
                     body: formData
                 })
-                .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    }
-                    throw new Error('Network response was not ok.');
-                })
+                .then(response => response.json())
                 .then(data => {
-                    console.log('Image uploaded successfully:', data);
+                    console.log(data);
                 })
                 .catch(error => {
                     console.error('Error uploading image:', error);

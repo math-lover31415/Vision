@@ -123,8 +123,8 @@ async def index(request: Request):
 
 @app.post("/image")
 async def upload_image(image: UploadFile = File(...)):
-    print(image)
     contents = await image.read()
-    cataract.getImg(io.BytesIO(contents))
-    return {"filename": image.filename, "content_type": image.content_type}
+    result, confidence = cataract.getImg(io.BytesIO(contents))
+    print(confidence)
+    return {"result": result, "confidence": confidence}
 

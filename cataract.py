@@ -10,7 +10,7 @@ np.set_printoptions(suppress=True)
 model = tf.saved_model.load("./converted_savedmodel/model.savedmodel")
 
 # Load the labels
-class_names = open("./converted_keras/labels.txt", "r").readlines()
+class_names = open("./converted_savedmodel/labels.txt", "r").readlines()
 
 # Create the array of the right shape to feed into the keras model
 # The 'length' or number of images you can put into the array is
@@ -40,5 +40,5 @@ def getImg(x):
     confidence_score = prediction[0][index]
 
     # Print prediction and confidence score
-    print("Class:", class_name[2:], end="")
-    print("Confidence Score:", confidence_score)
+    confidence_score = float(confidence_score)*100
+    return class_name[2:],confidence_score
