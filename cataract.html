@@ -104,12 +104,14 @@
             <input type="file" class="file-upload" onchange="getFile(event)" id="get">
         </div>
         <p>Drag and drop or click to select file</p>
+        <p id="message"></p>
     </main>
 
     <div class="bar"></div>
 
     <script defer>
         const input = document.getElementById('get');
+        const msg = document.getElementById('message');
 
         input.addEventListener('change', ()=>{
             console.log(input.value);
@@ -125,6 +127,7 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);
+                    msg.innerHTML = "Prdiction: ${data.result}, Confidence: ${data.confidence}"
                 })
                 .catch(error => {
                     console.error('Error uploading image:', error);
