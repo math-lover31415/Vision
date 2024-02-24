@@ -127,7 +127,7 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);
-                    msg.innerHTML = "Prdiction: ${data.result}, Confidence: ${data.confidence}"
+                    msg.innerHTML = `Prediction: ${data.result}, Confidence: ${data.confidence}%`
                 })
                 .catch(error => {
                     console.error('Error uploading image:', error);
