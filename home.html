@@ -72,11 +72,41 @@
             left: 0;
             background: linear-gradient(90deg, #F00 0%, #FF00F5 25.27%, #6100FF 50.07%, #0500FF 74.22%, #00D1FF 100%);
         }
+        header{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1em 3em;
+            width: 100vw;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        header nav ul{
+            display: flex;
+            list-style-type: none;
+            gap: 3em;
+        }
+        header nav ul li a{
+            text-decoration: none;
+        }
+        header nav ul li a:hover{
+            color: yellow;
+        }
     </style>
-    <h1>VISION</h1>
+    <header>
+        <h1>VISION</h1>
+
+        <nav>
+            <ul>
+                <li><a href="/home">Daltonization</a></li>
+                <li><a href="/cataract">Cataract-Prediction</a></li>
+            </ul>
+        </nav>
+    </header>
     <main>
-        <!-- <img id="video_feed" width="640" height="480"> -->
-        <img id="video_feed" src="/video_feed" width="640" height="480">
+        <img id="video_feed" width="640" height="480">
+        <!-- <img id="video_feed" src="/video_feed" width="640" height="480"> -->
         <div class="controls">
             <h2 class="cnt-head">Controls</h2>
             <div class="row">
@@ -122,8 +152,7 @@
         const input = document.getElementById('gamma')
         const radioM = document.querySelectorAll(".mode");
         const radioT = document.querySelectorAll(".type");
-        document.getAllElementByI
-        // const mode = document.querySelector('input[name="mode"]:checked');
+
 
         input.addEventListener('change', ()=>{
             console.log(input.value);

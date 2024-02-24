@@ -1,10 +1,11 @@
-from fastapi import FastAPI, Request, Response
+from fastapi import FastAPI, Request, Response, File, UploadFile
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 import cv2
 from daltonize import daltonize, simulate, convert_back, gamma_correction
 from pydantic import BaseModel
-import base64
+import cataract
+import io
 
 app = FastAPI()
 gamma = 2.4
@@ -113,8 +114,17 @@ async def index(request: Request):
 @app.get('/home')
 async def index(request: Request):
     content = read("home.html")
-    with open("./assets/bg.png", "rb") as image_file:
-        encoded_image = base64.b64encode(image_file.read()).decode("utf-8")
-    content = content.replace("{IMAGE_SRC}", f"data:image/jpeg;base64,{encoded_image}")
     return Response(content, media_type='text/html')
+
+@app.get('/cataract')
+async def index(request: Request):
+    content = read("cataract.html")
+    return Response(content, media_type='text/html')
+
+@app.post("/image")
+async def upload_image(image: UploadFile = File(...)):
+    print(image)
+    contents = await image.read()
+    cataract.getImg(io.BytesIO(contents))
+    return {"filename": image.filename, "content_type": image.content_type}
 
