@@ -75,8 +75,8 @@
     </style>
     <h1>VISION</h1>
     <main>
-        <img id="video_feed" width="640" height="480">
-        <!-- <img id="video_feed" src="/video_feed" width="640" height="480"> -->
+        <!-- <img id="video_feed" width="640" height="480"> -->
+        <img id="video_feed" src="/video_feed" width="640" height="480">
         <div class="controls">
             <h2 class="cnt-head">Controls</h2>
             <div class="row">
@@ -86,30 +86,30 @@
             <div class="row">
                 <label for="mode">Choose mode: </label>
                 <div class="col">
-                    <input type="radio" class="radio" id="mode" name="mode" value="Normal" checked>
+                    <input type="radio" class="radio mode" id="mode" name="mode" value="Normal" checked>
                     <p>Normal</p>
                 </div>
                 <div class="col">
-                    <input type="radio" class="radio" id="mode" name="mode" value="Simulated">
+                    <input type="radio" class="radio mode" id="mode" name="mode" value="Simulated">
                     <p>Simulated</p>
                 </div>
                 <div class="col">
-                    <input type="radio" class="radio" id="mode" name="mode" value="Normal">
+                    <input type="radio" class="radio mode" id="mode" name="mode" value="Daltonized">
                     <p>Daltonized</p>
                 </div>
             </div>
             <div class="row">
                 <label for="mode">Choose Type: </label>
                 <div class="col">
-                    <input type="radio" class="radio" id="type" name="type" value="D" checked>
+                    <input type="radio" class="radio type" id="type" name="type" value="d" checked>
                     <p>Deuteranopia</p>
                 </div>
                 <div class="col">
-                    <input type="radio" class="radio" id="type" name="type" value="P">
+                    <input type="radio" class="radio type" id="type" name="type" value="t">
                     <p>Protonopia</p>
                 </div>
                 <div class="col">
-                    <input type="radio" class="radio" id="type" name="type" value="T">
+                    <input type="radio" class="radio type" id="type" name="type" value="p">
                     <p>Tritnopia</p>
                 </div>
             </div>
@@ -120,6 +120,10 @@
     <div class="bar"></div>
     <script defer>
         const input = document.getElementById('gamma')
+        const radioM = document.querySelectorAll(".mode");
+        const radioT = document.querySelectorAll(".type");
+        document.getAllElementByI
+        // const mode = document.querySelector('input[name="mode"]:checked');
 
         input.addEventListener('change', ()=>{
             console.log(input.value);
@@ -137,6 +141,39 @@
                 })
                 .catch(error => {console.error('Error:', error); });           
         } );
+
+        radioT.forEach(e => e.addEventListener('change', ()=>{
+            const type = document.querySelector('input[name="type"]:checked');
+            console.log(type.defaultValue);
+            fetch('http://127.0.0.1:8000/type', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': "*"
+                },
+                body: JSON.stringify({text: type.defaultValue}),
+                })
+                .then(res => res.json()).then(res=>{
+                    console.log("hello " + res.reply);
+                })
+                .catch(error => {console.error('Error:', error); });    
+        }))
+        radioM.forEach(e => e.addEventListener('change', ()=>{
+            const mode = document.querySelector('input[name="mode"]:checked');
+            console.log(type.defaultValue);
+            fetch('http://127.0.0.1:8000/mode', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': "*"
+                },
+                body: JSON.stringify({text: mode.defaultValue}),
+                })
+                .then(res => res.json()).then(res=>{
+                    console.log("hello " + res.reply);
+                })
+                .catch(error => {console.error('Error:', error); });    
+        }))
     </script>
 </body>
 </html>
