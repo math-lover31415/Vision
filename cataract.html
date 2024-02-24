@@ -86,6 +86,10 @@
             opacity: 0;
             cursor: pointer;
         }
+        #message{
+            font-size: 1.5rem;
+            color: red;
+        }
     </style>
     <header>
         <h1>VISION</h1>
@@ -99,12 +103,13 @@
     </header>
     
     <main>
+        <h2>Drag and drop or click to select file</h2>
         <div class="container">
             <img class="upload-img" src="https://static.thenounproject.com/png/17840-200.png" alt="image">
             <input type="file" class="file-upload" onchange="getFile(event)" id="get">
         </div>
-        <p>Drag and drop or click to select file</p>
         <p id="message"></p>
+        <img id="eye-img" src="" width="600px" alt="">
     </main>
 
     <div class="bar"></div>
@@ -112,10 +117,12 @@
     <script defer>
         const input = document.getElementById('get');
         const msg = document.getElementById('message');
+        const eyeimg = document.getElementById('eye-img');
 
         input.addEventListener('change', ()=>{
             console.log(input.value);
             let file = event.target.files[0];
+            eyeimg.src = URL.createObjectURL(file);
             if (file) {
                 const formData = new FormData();
                 formData.append('image', file);
@@ -139,6 +146,7 @@
 
         function getFile(event) {
             let img1 = event.target.files[0];
+            eyeimg.src = img1
             console.log(img1);
         }
 
