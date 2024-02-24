@@ -29,11 +29,40 @@
         <div class="line"></div>
 
         <form>
-            <label><input type="radio" name="color" value="normal" checked> Normal</label><br>
-            <label><input type="radio" name="color" value="protanopia"> Protanopia</label><br>
-            <label><input type="radio" name="color" value="deuteranopia"> Deuteranopia</label><br>
-            <label><input type="radio" name="color" value="tritanopia"> Tritanopia</label>
-        </form>
+            <div class = "normalRadio"style="display: inline">
+                <input type="radio" name="color" id="normalButton">
+                <div class="buttontext">
+                    Normal
+                </div>
+            </div>
+            
+            <br>
+            <br>
+
+            <div class = "proRadio"style="display: inline">
+                <input type="radio" name="color" id="proButton">
+                <div class="buttontext">
+                    Protanopia
+                </div>
+            </div>
+            
+            <br>
+            <br>
+            <div class = "deuRadio"style="display: inline">
+                <input type="radio" name="color" id="deuButton">
+                <div class="buttontext">
+                    Deuteranopia
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class = "triRadio"style="display: inline">
+                <input type="radio" name="color" id="triButton">
+                <div class="buttontext">
+                    Tritanopia
+                </div>
+            </div>
+        </form>
 
         <div>
             <label for="satSlider">Saturation:</label>
