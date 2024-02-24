@@ -1,0 +1,10 @@
+{
+  "name": "Vision",
+  "description": "Color correction program",
+  "uuid": "tolerable31415@tutanota.com",
+  "shell-version": [
+    "45"
+  ],
+  "url": "https://github.com/math-lover31415/Vision",
+  "stylesheet": "stylesheet.css"
+}
