@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VISION</title>
+    <style>
+        /* Include your CSS styles directly here */
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .logo {
+            width: 100px; /* Adjust size as needed */
+        }
+        .line {
+            width: 100px;
+            height: 2px;
+            background-color: black;
+            margin: 20px auto;
+        }
+        /* Add any additional styles as needed */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img class="logo" src="icon.png" alt="Vision">
+        <h1>VISION</h1>
+        <div class="line"></div>
+
+        <form>
+            <label><input type="radio" name="color" value="normal" checked> Normal</label><br>
+            <label><input type="radio" name="color" value="protanopia"> Protanopia</label><br>
+            <label><input type="radio" name="color" value="deuteranopia"> Deuteranopia</label><br>
+            <label><input type="radio" name="color" value="tritanopia"> Tritanopia</label>
+        </form>
+
+        <div>
+            <label for="satSlider">Saturation:</label>
+            <input type="range" min="100" max="500" value="100" id="satSlider">
+            <span id="sliderText">100%</span>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>
