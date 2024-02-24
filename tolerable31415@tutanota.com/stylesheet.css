@@ -1,1 +1,15 @@
 /* Add your custom extension styling here */
+/* Change background color of the top panel */
+#panel {
+    background-color: #333333;
+}
+
+/* Change text color of the clock in the top panel */
+#clock {
+    color: #ffffff;
+}
+
+/* Change background color of the Activities Overview */
+#overview {
+    background-color: rgba(0, 0, 0, 0.5);
+}

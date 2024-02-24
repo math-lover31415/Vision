@@ -25,15 +25,25 @@ import {Extension, gettext as _} from 'resource:///org/gnome/shell/extensions/ex
 import {QuickToggle, SystemIndicator} from 'resource:///org/gnome/shell/ui/quickSettings.js';
 
 const ExampleToggle = GObject.registerClass(
-class ExampleToggle extends QuickToggle {
-    constructor() {
-        super({
-            title: _('Vision'),
-            iconName: 'face-smile-symbolic',
-            toggleMode: true,
-        });
-    }
-});
+    class ExampleToggle extends QuickToggle {
+        constructor() {
+            super({
+                title: _('Vision'),
+                iconName: 'face-smile-symbolic',
+                toggleMode: true,
+            });
+            this.connect('toggled', this._onToggled.bind(this));
+        }
+    
+        _onToggled() {
+            if (this.checked) {
+                this.extension.changeColors(); // Call the changeColors method of the extension
+            } else {
+                this.extension.revertColors(); // Call the revertColors method of the extension
+            }
+        }
+    });
+    
 
 const ExampleIndicator = GObject.registerClass(
 class ExampleIndicator extends SystemIndicator {
@@ -51,45 +61,66 @@ class ExampleIndicator extends SystemIndicator {
     }
 });
 
-export default class QuickSettingsExampleExtension extends Extension {
+const Gtk = imports.gi.Gtk;
+const Gdk = imports.gi.Gdk;
+let cssProvider;
+export default class Vision extends Extension {
+    constructor() {
+        super({
+            uuid: 'tolerable31415@tutanota.com',
+            // Add other metadata properties as needed
+        });
+        this._indicator = null;
+        this._toggle = null;
+    }
+
     modifyColor(originalColor) {
-        let red = 255-originalColor.red; 
-        let green = 255-originalColor.green; 
-        let blue = 255-originalColor.blue; 
+        let red = 255 - originalColor.red; 
+        let green = 255 - originalColor.green; 
+        let blue = 255 - originalColor.blue; 
         const modifiedColor = new Clutter.Color({ red, green, blue });
         return modifiedColor;
     }
-
+    
     traverseContainer(container) {
         if (!container || !container.get_children) {
             return;
         }
         container.get_children().forEach(child => {
-            if (child instanceof Clutter.Actor) {
-                const currentColor = child.get_paint_color();
-                const modifiedColor = this.modifyColor(currentColor);
-                child.set_paint_color(modifiedColor);
-            }
             if (child instanceof St.Widget) {
                 this.traverseContainer(child);
+            } else if (child instanceof Clutter.Actor) {
+                const currentColor = child.get_background_color();
+                const modifiedColor = this.modifyColor(currentColor);
+                child.set_background_color(modifiedColor);
+            } else {
+                
             }
         });
     }
-
-    changeColors(){
+    
+    changeColors() {
         const mainContainer = global.stage.get_child_at_index(0);
         this.traverseContainer(mainContainer);
+    }
+
+    revertColors() {
+        this.changeColors();
     }
 
     enable() {
         this._indicator = new ExampleIndicator();
         Main.panel.statusArea.quickSettings.addExternalIndicator(this._indicator);
-        this.changeColors();
+        this._toggle = new ExampleToggle();
+        this._toggle.extension = this; // Pass the extension instance to the toggle
+        this._indicator.quickSettingsItems.push(this._toggle);
+        this.modifyColor();
     }
-
+    
     disable() {
         this._indicator.quickSettingsItems.forEach(item => item.destroy());
         this._indicator.destroy();
         this.changeColors();
     }
 }
+

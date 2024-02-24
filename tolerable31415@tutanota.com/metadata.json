@@ -5,5 +5,6 @@
   "shell-version": [
     "45"
   ],
-  "url": "https://github.com/math-lover31415/Vision"
+  "url": "https://github.com/math-lover31415/Vision",
+  "stylesheet": "stylesheet.css"
 }
