@@ -19,7 +19,7 @@ def generate_frames():
             frame = cv2.flip(frame, 1)
             cv2.imshow('video',frame)
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            print(gamma)
+            #print(gamma)
             frame = daltonize(frame, 'd', gamma)
             frame = convert_back(frame, gamma)
             frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
