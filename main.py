@@ -19,7 +19,7 @@ def generate_frames():
             break
         else:
             frame = cv2.flip(frame, 1)
-            cv2.imshow('video',frame)
+            # cv2.imshow('video',frame)
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             frame = simulate(frame, 'd', gamma)
             frame = convert_back(frame, gamma)
@@ -36,10 +36,6 @@ generate_frames()
 def read(file):
     with open(file, 'r') as f:
         content = f.read()
-    content += "<style>"
-    with open("style.css", 'r') as f:
-        content += f.read()
-    content += "</style>"
     return content
 
 app.add_middleware(
