@@ -3,35 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VISION</title>
+    <title>Document</title>
 </head>
 <body>
-    <h1>VISION</h1>
-    <!-- <img id="video_feed" width="640" height="480"> -->
-    <img id="video_feed" src="/video_feed" width="640" height="480">
-    <input type="range" min="100" max="1000" width="400" height="20"  class="slider" id="myRange">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Rubik+Wet+Paint&display=swap');
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            z-index: 5;
+        }
+        body{
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 4em;
+        }
+        
+        .bg{
+            height: 100vh;
+            width: 100vw;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            z-index: 0;
+        }
+        
+        main h1{
+            font-family: 'Rubik wet paint';
+            color: white;
+            font-size: 7rem;
+            font-weight: 400;
+            letter-spacing: 24px;
+            text-align: center;
+            margin-bottom: 2.5em;
+        }
+        a{
+            color: black;
+            text-decoration: none;
+            background-color: white;
+            font-family: 'jost';
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 5px 30px;
+        }
+    </style>
+    <img src="/bg" alt="bg" class="bg">
+    <main>
+        <h1>
+            VISION
+        </h1>
+    </main>
+    <a href="/home">Explore</a>
 
-    <script defer>
-        const input = document.getElementById('myRange')
-        input.addEventListener('change', ()=>{
-            console.log(input.value);
-
-            fetch('http://127.0.0.1:8000/gamma', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': "*"
-                },
-                body: JSON.stringify({text: input.value}),
-                })
-                .then(res => res.json()).then(res=>{
-                    console.log("hello "+res);
-                    // let aiMessage = { text: res.reply, sender: "ai" };
-                    // setMessages([...messages, newMessage, aiMessage]);
-                })
-                .catch(error => {console.error('Error:', error); });
-            
-        } );
-    </script>
 </body>
 </html>

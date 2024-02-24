@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VISION</title>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+</head>
+<body>
+    <h1>VISION</h1>
+    <!-- <img id="video_feed" width="640" height="480"> -->
+    <img id="video_feed" src="/video_feed" width="640" height="480">
+    <input type="range" placeholder="Gamma Correction" min="100" max="1000" width="400" height="20"  class="slider" id="myRange">
+
+    <script defer>
+        const input = document.getElementById('myRange')
+
+        input.addEventListener('change', ()=>{
+            console.log(input.value);
+
+            fetch('http://127.0.0.1:8000/gamma', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': "*"
+                },
+                body: JSON.stringify({text: input.value}),
+                })
+                .then(res => res.json()).then(res=>{
+                    console.log("hello " + res.reply);
+                })
+                .catch(error => {console.error('Error:', error); });           
+        } );
+    </script>
+</body>
+</html>

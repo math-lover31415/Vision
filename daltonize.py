@@ -6,7 +6,8 @@ import numpy as np
 def transform_colorspace(img, mat):
     return img @ mat.T
 
-def simulate(rgb, color_deficit="d"):
+def simulate(rgb, color_deficit="d", gamma=2.4):
+    rgb = gamma_correction(rgb, gamma)
     # Colorspace transformation matrices
     cb_matrices = {
         "d": np.array([[1, 0, 0], [1.10104433,  0, -0.00901975], [0, 0, 1]], dtype=np.float16),
