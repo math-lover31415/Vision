@@ -5,16 +5,7 @@ if(!window.Color.Vision) Color.Vision = { };
 
 (function() {
 
-/*
-	Color.Vision.Daltonize : v0.1
-	------------------------------
-	"Analysis of Color Blindness" by Onur Fidaner, Poliang Lin and Nevran Ozguven.
-	http://scien.stanford.edu/class/psych221/projects/05/ofidaner/project_report.pdf
-	
-	"Digital Video Colourmaps for Checking the Legibility of Displays by Dichromats" by FranÃ§oise ViÃ©not, Hans Brettel and John D. Mollon
-	http://vision.psychol.cam.ac.uk/jdmollon/papers/colourmaps.pdf
 
-*/
 
 var CVDMatrix = { // Color Vision Deficiency
 	"Protanope": [ // reds are greatly reduced (1% men)
